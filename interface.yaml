@@ -1,0 +1,4 @@
+name: arangodb
+summary: ArangoDB interface.
+version: 1
+repo: https://github.com/tengu-team/interface-arangodb.git
