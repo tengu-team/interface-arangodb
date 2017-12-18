@@ -46,9 +46,9 @@ class ArangoDBProvides(RelationBase):
         conv.remove_state('{relation_name}.connected')
         conv.set_state('{relation_name}.broken')
 
-    def configure(self, host, port, username, password):
+    def configure(self, port, username, password,):
         relation_info = {
-            'host': host,
+            'host': hookenv.unit_get('private-address'),
             'port': port,
             'username': username,
             'password': password}

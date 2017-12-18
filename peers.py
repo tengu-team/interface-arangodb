@@ -14,17 +14,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0301,c0325, r0903,w0406
-from charms.reactive import RelationBase
-from charmhelpers.core import hookenv
-from charms.reactive import hook
-from charms.reactive import scopes
 
-class ArangoDBPeer(RelationBase):
+from charms.reactive import scopes, hook, RelationBase
+
+class ArangoDBPeers(RelationBase):
     scope = scopes.UNIT
 
     @hook('{peers:arangodb}-relation-joined')
     def peer_joined(self):
         conv = self.conversation()
+        conv.remove_state('{relation_name}.departed')
         conv.set_state('{relation_name}.connected')
 
     @hook('{peers:arangodb}-relation-departed')
@@ -33,18 +32,8 @@ class ArangoDBPeer(RelationBase):
         conv.remove_state('{relation_name}.connected')
         conv.set_state('{relation_name}.departed')
 
-    def dismiss(self):
-        for conv in self.conversations():
-            conv.remove_state('{relation_name}.departed')
-
-    def get_peers(self):
-        peers = []
-        for conversation in self.conversations():
-            peers.append(conversation.scope)
-        return peers
-
     def get_peer_addresses(self):
         addresses = []
         for conversation in self.conversations():
-            addresses.append(conversation.get_remote('host'))
+            addresses.append(conversation.get_remote('private-address'))
         return addresses
