@@ -32,6 +32,13 @@ class ArangoDBPeers(RelationBase):
         conv.remove_state('{relation_name}.connected')
         conv.set_state('{relation_name}.departed')
 
+    def dismiss(self):
+        '''Remove the departing state from all other units in the conversation,
+        and we can resume normal operation.
+        '''
+        for conv in self.conversations():
+            conv.remove_state('{relation_name}.departed')
+
     def get_peer_addresses(self):
         addresses = []
         for conversation in self.conversations():
