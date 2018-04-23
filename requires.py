@@ -49,9 +49,11 @@ class ArangoDBRequires(RelationBase):
         conv.set_state('{relation_name}.broken')
 
     def relation_data(self):
-        conv = self.conversation()
-        data = {'host': conv.get_remote('host'),
-                'port' : conv.get_remote('port'),
-                'username': conv.get_remote('username'),
-                'password' : conv.get_remote('password')}
+        data = []
+        for conv in self.conversations():
+            data.append({'host': conv.get_remote('host'),
+                         'port' : conv.get_remote('port'),
+                         'username': conv.get_remote('username'),
+                         'password' : conv.get_remote('password')})
         return(data)
+
