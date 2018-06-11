@@ -54,6 +54,7 @@ class ArangoDBRequires(RelationBase):
             data.append({'host': conv.get_remote('host'),
                          'port' : conv.get_remote('port'),
                          'username': conv.get_remote('username'),
-                         'password' : conv.get_remote('password')})
+                         'password' : conv.get_remote('password'),
+                         'remote_unit_name': conv.scope})
         return(data)
 
